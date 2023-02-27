@@ -5,44 +5,51 @@
  */
 
 import PluginManager from 'tinymce/core/api/PluginManager';
-import tipsICON from './icons/panel-block-icon-tips';
-import infoICON from './icons/panel-block-icon-info';
-import okICON from './icons/panel-block-icon-ok';
-import warningICON from './icons/panel-block-icon-warning';
-import errorICON from './icons/panel-block-icon-error';
-import deleteICON from './icons/panel-block-icon-delete';
+// import tipsICON from './icons/panel-block-icon-tips';
+// import infoICON from './icons/panel-block-icon-info';
+// import okICON from './icons/panel-block-icon-ok';
+// import warningICON from './icons/panel-block-icon-warning';
+// import errorICON from './icons/panel-block-icon-error';
+// import deleteICON from './icons/panel-block-icon-delete';
+
+import { icons } from './icons/index';
+
+const { tipsICON, infoICON, deleteICON, errorICON, warningICON, okICON } = icons;
 
 
 export default () => {
   PluginManager.add('cherry-panel', function plugin(editor) {
     const defaultType = 'tips';
-  	const defaultBubbleMenu = 'cherry-panel__tips cherry-panel__info cherry-panel__ok cherry-panel__warning cherry-panel__error | cherry-panel__delete';
-  	const panelList = {
-  		tips: { name: 'tips', icon: tipsICON, iconName: 'panel-block-icon-tips', color: '#3582FB', background: '#EBF3FE' },
-  		info: { name: 'info', icon: infoICON, iconName: 'panel-block-icon-info', color: '#8091A5', background: '#F8F8F8' },
-  		ok: { name: 'ok', icon: okICON, iconName: 'panel-block-icon-ok', color: '#56BD5B', background: '#EDF9EF' },
-  		warning: { name: 'warning', icon: warningICON, iconName: 'panel-block-icon-warning', color: '#FFBF4D', background: '#FFEED6' },
-  		error: { name: 'error', icon: errorICON, iconName: 'panel-block-icon-error', color: '#F85E5E', background: '#FFEFEF' },
-  		delete: { name: 'delete', icon: deleteICON, iconName: 'panel-block-icon-delete', color: 'rgb(222, 53, 11)', background: 'rgb(255, 235, 230)' },
-  	};
+    const defaultBubbleMenu = 'cherry-panel__tips cherry-panel__info cherry-panel__ok cherry-panel__warning cherry-panel__error | cherry-panel__delete';
+    const panelList = {
+      tips: { name: 'tips', icon: tipsICON, iconName: 'panel-block-icon-tips', color: '#3582FB', background: '#EBF3FE' },
+      info: { name: 'info', icon: infoICON, iconName: 'panel-block-icon-info', color: '#8091A5', background: '#F8F8F8' },
+      ok: { name: 'ok', icon: okICON, iconName: 'panel-block-icon-ok', color: '#56BD5B', background: '#EDF9EF' },
+      warning: { name: 'warning', icon: warningICON, iconName: 'panel-block-icon-warning', color: '#FFBF4D', background: '#FFEED6' },
+      error: { name: 'error', icon: errorICON, iconName: 'panel-block-icon-error', color: '#F85E5E', background: '#FFEFEF' },
+      delete: { name: 'delete', icon: deleteICON, iconName: 'panel-block-icon-delete', color: 'rgb(222, 53, 11)', background: 'rgb(255, 235, 230)' },
+    };
     // 获取可以插入到富文本中的信息版icon
-  	const getPanelIconShowInIframe = function (type = defaultType) {
-  		const panel = panelList[type] ? panelList[type] : panelList[defaultType];
-  		return panel.icon.replace(/<svg version=/g, '<svg style="width:inherit;color:inherit;height:inherit;" version=');
-  	};
+    const getPanelIconShowInIframe = function (type = defaultType) {
+      const panel = panelList[type] ? panelList[type] : panelList[defaultType];
+      return panel.icon.replace(/<svg version=/g, '<svg style="width:inherit;color:inherit;height:inherit;" version=');
+    };
 
-  	// 获取可以插入到toolbar中的信息版 icon
-  	const getPanelIconShowInToolbar = function (type = defaultType) {
-  		const panel = panelList[type] ? panelList[type] : panelList[defaultType];
-  		return panel.icon.replace(/<svg version=/g, '<svg style="width:16px;color:inherit;height:16px;" version=');
-  	};
+    // 获取可以插入到toolbar中的信息版 icon
+    const getPanelIconShowInToolbar = function (type = defaultType) {
+      const panel = panelList[type] ? panelList[type] : panelList[defaultType];
+      return panel.icon.replace(/<svg version=/g, '<svg style="width:16px;color:inherit;height:16px;" version=');
+    };
 
     const panelTemplate = function (type = defaultType, html = null) {
-    	const panel = panelList[type] ? panelList[type] : panelList[defaultType];
-    	const selected = html ? html : editor.selection.getContent();
-    	const icon = getPanelIconShowInIframe(type);
+      const panel = panelList[type] ? panelList[type] : panelList[defaultType];
+      const selected = html ? html : editor.selection.getContent();
+      const icon = getPanelIconShowInIframe(type);
+
+      console.log(832, icon);
+
       return `
-			<div contenteditable="false" data-panel-type="${type}" class="cherry-panel-block" 
+			<div contenteditable="false" data-panel-type="${type}" class="cherry-panel-block"
 				style="
 					position: relative;
 					border-radius: 3px;
@@ -54,7 +61,7 @@ export default () => {
 					cursor: pointer;
 				"
 			>
-				<div contenteditable="true" class="cherry-panel-block__content" 
+				<div contenteditable="true" class="cherry-panel-block__content"
 					style="
 						display:inline-block;
 						width: calc(100% - 35px);
@@ -63,7 +70,7 @@ export default () => {
 						position: relative;
 					"
 				>
-					<div contenteditable="false" class="cherry-panel-block__left" 
+					<div contenteditable="false" class="cherry-panel-block__left"
 						style="
 							display:inline-block;
 							width:20px;
@@ -75,7 +82,7 @@ export default () => {
 							left: 5px;
 						"
 					>
-						<span contenteditable="false" class="cherry-panel-block__icon" style="width:16px;vertical-align: middle;color:${panel.color}">${icon}</span>
+						<span contenteditable="false" class="cherry-panel-block__icon"  style="width:16px;vertical-align: middle;color:${panel.color}">${icon}</span>
 					</div>
 					${selected ? selected : '<p><br></p>'}
 				</div>
@@ -84,9 +91,9 @@ export default () => {
     };
     // 获取光标所在的信息面板
     const getCurrentPanelBlock = function () {
-    	const currentNode = editor.selection.getNode();
-    	let targetDom = null;
-    	if (editor.dom.is(currentNode, 'div') && editor.dom.hasClass(currentNode, 'cherry-panel-block')) {
+      const currentNode = editor.selection.getNode();
+      let targetDom = null;
+      if (editor.dom.is(currentNode, 'div') && editor.dom.hasClass(currentNode, 'cherry-panel-block')) {
         targetDom = currentNode;
       } else {
         const parentDom = editor.dom.getParent(currentNode, 'div.cherry-panel-block');
@@ -101,9 +108,9 @@ export default () => {
     };
 
     const getCurrentPanelBlockLeft = function () {
-    	const currentNode = editor.selection.getNode();
-    	let targetDom = null;
-    	if (editor.dom.is(currentNode, 'div') && editor.dom.hasClass(currentNode, 'cherry-panel-block__left')) {
+      const currentNode = editor.selection.getNode();
+      let targetDom = null;
+      if (editor.dom.is(currentNode, 'div') && editor.dom.hasClass(currentNode, 'cherry-panel-block__left')) {
         targetDom = currentNode;
       } else {
         const parentDom = editor.dom.getParent(currentNode, 'div.cherry-panel-block__left');
@@ -119,10 +126,10 @@ export default () => {
 
     // 获取光标所在的信息面板的类型
     const getCurrentPanelBlockType = function (obj = null) {
-    	if (!obj) {
-    		obj = getCurrentPanelBlock();
-    	}
-    	return editor.dom.getAttrib(obj, 'data-panel-type', defaultType);
+      if (!obj) {
+        obj = getCurrentPanelBlock();
+      }
+      return editor.dom.getAttrib(obj, 'data-panel-type', defaultType);
     };
 
     // 插入新信息面板
@@ -155,8 +162,8 @@ export default () => {
 
     // 修改信息面板的类型
     const change = function (type = defaultType) {
-    	const panel = panelList[type] ? panelList[type] : panelList[defaultType];
-    	const targetDom = getCurrentPanelBlock();
+      const panel = panelList[type] ? panelList[type] : panelList[defaultType];
+      const targetDom = getCurrentPanelBlock();
       const currentType = getCurrentPanelBlockType(targetDom);
       if (currentType == panel.name) {
         return false;
@@ -173,90 +180,90 @@ export default () => {
 
     // 删除信息面板
     const remove = function (removeAll = true) {
-    	const targetDom = getCurrentPanelBlock();
-    	if (removeAll) {
-    		editor.dom.remove(targetDom);
-    	} else {
-	    	const lefts = editor.dom.select('div.cherry-panel-block__left', targetDom);
-	    	for (const left of lefts) {
-	    		editor.dom.remove(left);
-	    	}
-	    	const contents = editor.dom.select('div.cherry-panel-block__content', targetDom);
-	    	const content = contents[0]  ? contents[0] : editor.dom.create('br');
-	    	editor.dom.remove(targetDom);
-	    	editor.insertContent(content.innerHTML);
-    	}
-    	editor.nodeChanged();
+      const targetDom = getCurrentPanelBlock();
+      if (removeAll) {
+        editor.dom.remove(targetDom);
+      } else {
+        const lefts = editor.dom.select('div.cherry-panel-block__left', targetDom);
+        for (const left of lefts) {
+          editor.dom.remove(left);
+        }
+        const contents = editor.dom.select('div.cherry-panel-block__content', targetDom);
+        const content = contents[0] ? contents[0] : editor.dom.create('br');
+        editor.dom.remove(targetDom);
+        editor.insertContent(content.innerHTML);
+      }
+      editor.nodeChanged();
     };
 
     // 修正光标，不让光标出现在panelblock > div.cherry-panel-block__content 之外的地方
     const resetCursor = function () {
-    	editor.dom.select('div.cherry-panel-block__content').forEach((dom) => {
-    		if (editor.dom.getAttrib(dom, 'contenteditable') != 'true') {
+      editor.dom.select('div.cherry-panel-block__content').forEach((dom) => {
+        if (editor.dom.getAttrib(dom, 'contenteditable') != 'true') {
           editor.dom.setAttrib(dom, 'contenteditable', 'true');
-    		}
+        }
       });
-    	const selected = getCurrentPanelBlock();
-    	if (selected === false) {
-    		return false;
-    	}
-    	const isSelectedContent = getCurrentPanelBlockLeft();
-    	if (isSelectedContent === false) {
-    		return false;
-    	}
-    	editor.selection.select(selected, false);
+      const selected = getCurrentPanelBlock();
+      if (selected === false) {
+        return false;
+      }
+      const isSelectedContent = getCurrentPanelBlockLeft();
+      if (isSelectedContent === false) {
+        return false;
+      }
+      editor.selection.select(selected, false);
     };
 
     // 连续两个换行自动拆成两个信息面板，或者自动结束面板
     const listenEnter = function (e) {
-    	if (e.key == 'Enter' && !e.ctrlKey) {
-    		const isPanelBlock = getCurrentPanelBlock();
-    		if (isPanelBlock === false) {
-    			return true;
-    		}
-    		const currentNode = editor.selection.getNode() as HTMLElement;
-    		const prevNode = currentNode.previousSibling as HTMLElement;
-    		let nextNode = currentNode.nextSibling as HTMLElement;
-    		if (currentNode.tagName.toLowerCase() == 'p' && prevNode.tagName.toLowerCase() == 'p') {
-    			// 连续两个换行
-    			if (/^\n$/.test(currentNode.innerText) && /^\n$/.test(prevNode.innerText)) {
-    				if (nextNode) {
-    					// 如果后面有内容，则拆分信息面板
-    					const type = getCurrentPanelBlockType();
-    					let allNextNodeHtml = currentNode.outerHTML + nextNode.outerHTML;
-    					editor.dom.remove(prevNode);
-    					editor.dom.remove(currentNode);
-    					while (nextNode.nextSibling) {
-    						const tmpNode = nextNode;
-    						nextNode = nextNode.nextSibling as HTMLElement;
-    						editor.dom.remove(tmpNode);
-    						allNextNodeHtml += nextNode.outerHTML;
-    					}
-    					editor.dom.remove(nextNode);
-    					const newPanel = panelTemplate(type, allNextNodeHtml);
-    					const newLine = editor.dom.create('p', {}, '<br>');
-    					editor.dom.insertAfter(newLine, isPanelBlock);
-    					editor.selection.select(newLine, true);
-    					editor.insertContent(newPanel);
-    					const newPanelNode = getCurrentPanelBlock();
-    					if (newPanelNode) {
-    						const firstP = editor.dom.select('div.cherry-panel-block__content p:first', newPanelNode);
-    						if (firstP) {
-    							editor.selection.select(firstP[0], true);
-    						}
-    					}
-    					editor.nodeChanged();
-    				} else {
-    					// 退出信息面板
-    					editor.dom.remove(currentNode);
-    					editor.dom.remove(prevNode);
-    					const newLine = editor.dom.create('p', {}, '<br>');
-    					editor.dom.insertAfter(newLine, isPanelBlock);
+      if (e.key == 'Enter' && !e.ctrlKey) {
+        const isPanelBlock = getCurrentPanelBlock();
+        if (isPanelBlock === false) {
+          return true;
+        }
+        const currentNode = editor.selection.getNode() as HTMLElement;
+        const prevNode = currentNode.previousSibling as HTMLElement;
+        let nextNode = currentNode.nextSibling as HTMLElement;
+        if (currentNode.tagName.toLowerCase() == 'p' && prevNode.tagName.toLowerCase() == 'p') {
+          // 连续两个换行
+          if (/^\n$/.test(currentNode.innerText) && /^\n$/.test(prevNode.innerText)) {
+            if (nextNode) {
+              // 如果后面有内容，则拆分信息面板
+              const type = getCurrentPanelBlockType();
+              let allNextNodeHtml = currentNode.outerHTML + nextNode.outerHTML;
+              editor.dom.remove(prevNode);
+              editor.dom.remove(currentNode);
+              while (nextNode.nextSibling) {
+                const tmpNode = nextNode;
+                nextNode = nextNode.nextSibling as HTMLElement;
+                editor.dom.remove(tmpNode);
+                allNextNodeHtml += nextNode.outerHTML;
+              }
+              editor.dom.remove(nextNode);
+              const newPanel = panelTemplate(type, allNextNodeHtml);
+              const newLine = editor.dom.create('p', {}, '<br>');
+              editor.dom.insertAfter(newLine, isPanelBlock);
+              editor.selection.select(newLine, true);
+              editor.insertContent(newPanel);
+              const newPanelNode = getCurrentPanelBlock();
+              if (newPanelNode) {
+                const firstP = editor.dom.select('div.cherry-panel-block__content p:first', newPanelNode);
+                if (firstP) {
+                  editor.selection.select(firstP[0], true);
+                }
+              }
+              editor.nodeChanged();
+            } else {
+              // 退出信息面板
+              editor.dom.remove(currentNode);
+              editor.dom.remove(prevNode);
+              const newLine = editor.dom.create('p', {}, '<br>');
+              editor.dom.insertAfter(newLine, isPanelBlock);
               editor.selection.select(newLine, true);
               editor.nodeChanged();
-    				}
-    			}
-    		} else if (isBrLine(currentNode) && isLastChild(currentNode) && isBrLine(prevNode)) {
+            }
+          }
+        } else if (isBrLine(currentNode) && isLastChild(currentNode) && isBrLine(prevNode)) {
           // 退出信息面板
           editor.dom.remove(currentNode);
           editor.dom.remove(prevNode);
@@ -265,18 +272,18 @@ export default () => {
           editor.selection.select(newLine, true);
           editor.nodeChanged();
         }
-    	}
+      }
     };
 
     const isPanelBlock = function (dom) {
-    	if (editor.dom.is(dom, 'div') && editor.dom.hasClass(dom, 'cherry-panel-block')) {
-    		return true;
-    	}
-    	return false;
+      if (editor.dom.is(dom, 'div') && editor.dom.hasClass(dom, 'cherry-panel-block')) {
+        return true;
+      }
+      return false;
     };
 
     const isBrLine = (element) => {
-      return element.childNodes.length === 1 &&  element.childNodes[0].tagName.toLowerCase() === 'br';
+      return element.childNodes.length === 1 && element.childNodes[0].tagName.toLowerCase() === 'br';
     }
     const isLastChild = (element) => {
       if (editor.dom.hasClass(element, 'cherry-panel-block__content')) {
@@ -303,7 +310,7 @@ export default () => {
     // });
 
     editor.on('click', (e) => {
-    	resetCursor();
+      resetCursor();
     });
 
     editor.on('keyup', (e) => {
@@ -333,7 +340,7 @@ export default () => {
     editor.ui.registry.addToggleButton('ch-panel', {
       icon: panelList[defaultType].iconName,
       tooltip: 'Panel Block',
-      onAction (api) {
+      onAction(api) {
         if (api.isActive()) {
           editor.execCommand('cleanCherryPanel');
         } else {
@@ -341,7 +348,7 @@ export default () => {
         }
       },
       // @ts-ignore
-      onSetup (api) {
+      onSetup(api) {
         editor.on('nodeChange', () => {
           const isActive = getCurrentPanelBlock() !== false;
           api.setActive(isActive);
@@ -360,30 +367,30 @@ export default () => {
 
     // 注册bubble menu 按钮组里的具体按钮
     Object.keys(panelList).forEach((key) => {
-    	editor.ui.registry.addIcon(panelList[key].iconName, getPanelIconShowInToolbar(key));
-    	if (key != 'delete') {
+      editor.ui.registry.addIcon(panelList[key].iconName, getPanelIconShowInToolbar(key));
+      if (key != 'delete') {
         editor.ui.registry.addToggleButton(`ch-panel__${key}`, {
           icon: panelList[key].iconName,
           tooltip: `Panel Block ${key}`,
-          onAction () {
+          onAction() {
             editor.execCommand('changeCherryPanel', false, key);
           },
           // @ts-ignore
-          onSetup (api) {
+          onSetup(api) {
             const type = getCurrentPanelBlockType();
             api.setActive(type == key);
           }
         });
-    	}
+      }
     });
     editor.ui.registry.addToggleButton('ch-panel__delete', {
       icon: panelList.delete.iconName,
       tooltip: 'Panel Block delete',
-      onAction () {
+      onAction() {
         editor.execCommand('removeCherryPanel');
       },
       // @ts-ignore
-      onSetup (api) {
+      onSetup(api) {
         let dom = document.querySelector('.tox-tbtn[aria-label="Panel Block delete"]') as HTMLElement;
         dom = dom ? dom : document.querySelector('.tox-tbtn[aria-label="删除"]');
         if (!dom) {

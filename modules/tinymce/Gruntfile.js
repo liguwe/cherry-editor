@@ -44,9 +44,9 @@ const warninngHandler = (warning) => {
       || warning.message.indexOf('html_beautify') > -1
       || warning.message.indexOf('fromTextArea') > -1
     ) {
-      return; 
+      return;
     }
-    
+
   }
   return swag.onwarn(warning);
 }
@@ -247,7 +247,7 @@ module.exports = function (grunt) {
       })
     ),
 
-    emojis: {
+    emoticons: {
       twemoji: {
         base: '',
         ext: '.png'
@@ -1015,7 +1015,7 @@ module.exports = function (grunt) {
   });
   grunt.loadTasks('tools/tasks');
 
-  grunt.registerTask('emoji', ['emojis', 'uglify:emoticons-raw']);
+  grunt.registerTask('emoji', ['emoticons', 'uglify:emoticons-raw']);
 
   grunt.registerTask('prodBuild', [
     'shell:tsc',

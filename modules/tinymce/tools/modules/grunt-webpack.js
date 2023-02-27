@@ -1,3 +1,6 @@
+/**
+* webpack打包配置，依赖于webpack-dev-server
+*  */
 let { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 let LiveReloadPlugin = require('webpack-livereload-plugin');
 let path = require('path');

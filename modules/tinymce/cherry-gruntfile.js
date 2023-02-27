@@ -27,6 +27,7 @@ let plugins = [
   'visualblocks', 'visualchars', 'wordcount', 'quickbars',
 ];
 
+
 let themes = [
   'mobile',
   // 'modern', 'mobile', 'inlite', 'silver'
@@ -303,7 +304,7 @@ module.exports = function (grunt) {
 
     // ::::这里没有走进来？不太清楚这个是干嘛用的
     emojis: {
-      twemoji: { //twiter的图标
+      twemoji: {
         base: '',
         ext: '.png'
       }
@@ -394,7 +395,7 @@ module.exports = function (grunt) {
         webpack: gruntWebPack.all(plugins, themes),
         publicPath: '/',
         inline: false,
-        port: grunt.option('webpack-port') !== undefined ? grunt.option('webpack-port') : 3000,
+        port: grunt.option('webpack-port') !== undefined ? grunt.option('webpack-port') : 3003,
         host: '0.0.0.0',
         disableHostCheck: true,
         before: app => gruntWebPack.generateDemoIndex(grunt, app, plugins, themes)
@@ -1139,13 +1140,14 @@ module.exports = function (grunt) {
   });
   grunt.loadTasks('tools/tasks');
 
-  // grunt.registerTask('emoji', ['emojis', 'uglify:emoticons-raw']);
+  grunt.registerTask('emoji', ['emojis','uglify:emoticons-raw']);
+  // grunt.registerTask('emoji', ['emoticons', 'uglify:emoticons-raw']);
 
   grunt.registerTask('prodBuild', [
     'shell:tsc',
     // 'eslint',
     'globals',
-    // 'emoji',
+    'emoji',
     'rollup',
     'concat',
     'copy',
@@ -1165,7 +1167,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'shell:tsc',
     'globals',
-    // 'emoji',
+    'emoji',
     'rollup',
     'concat',
     'copy',
@@ -1177,7 +1179,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('dev', [
     'globals',
-    // 'emoji',
+    'emoji',
     // TODO: Make webpack use the oxide CSS directly
     // as well as making development easier, then we can update 'yarn dev' to run 'oxide-build' in parallel with 'tinymce-grunt dev'
     // that will save 2-3 seconds on incremental builds

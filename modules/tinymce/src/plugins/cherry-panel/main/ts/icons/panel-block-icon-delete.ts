@@ -21,4 +21,4 @@ export default `<?xml version="1.0" encoding="utf-8"?>
 		S491.417,300.403,491.417,316.972z"/>
 </g>
 </svg>
-`
+`;
