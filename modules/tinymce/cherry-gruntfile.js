@@ -8,7 +8,8 @@
 const zipUtils = require('./tools/modules/zip-helper');
 const gruntUtils = require('./tools/modules/grunt-utils');
 const gruntWebPack = require('./tools/modules/grunt-webpack');
-const swag = require('@ephox/swag');
+const swag = require('@ephox/swag'); // A collection of tools for rollup/webpack
+
 const fs = require('fs');
 const path = require('path');
 const pluginsDir = path.resolve(__dirname, './src/plugins');
@@ -32,6 +33,7 @@ let themes = [
   'silver'
 ];
 
+// 为 TinyMCE 创建皮肤，更多参考https://www.tiny.cloud/docs/advanced/creating-a-skin/
 let oxideUiSkinMap = {
   'dark': 'oxide-dark',
   'default': 'oxide'
@@ -50,9 +52,9 @@ const warninngHandler = (warning) => {
       || warning.message.indexOf('html_beautify') > -1
       || warning.message.indexOf('fromTextArea') > -1
     ) {
-      return; 
+      return;
     }
-    
+
   }
   return swag.onwarn(warning);
 }
@@ -69,15 +71,20 @@ module.exports = function (grunt) {
 
     shell: {
       tsc: { command: 'tsc -b' }
+      // shell 属性可以用来执行 shell 命令,
+      // tsc -b （build） 用于指定要编译的 TypeScript 项目的根目录
+      // 在 TypeScript 中，可以将一个大型项目拆分为多个子项目，每个子项目可以有自己的 tsconfig.json 配置文件
+      // 可以参考tsconfig.json 中的 references 属性
     },
 
-    eslint: {
+    eslint: { // 注意，依赖与两个包 eslint grunt-eslint
       options: {
         configFile: '../../.eslintrc.json',
       },
       target: [ 'src/**/*.ts' ]
     },
 
+    // globals 属性用于指定全局变量
     globals: {
       options: {
         configFile: 'src/core/main/json/globals.json',
@@ -86,6 +93,12 @@ module.exports = function (grunt) {
       }
     },
 
+    // rollup 是 Grunt 中的一个插件，用于将 ES6 模块打包成一个单独的 JavaScript 文件，以便在浏览器中使用
+    // format 属性表示打包后的代码格式，这里设置为 IIFE（立即执行函数表达式）。
+    // sourceMap 属性表示是否生成源映射文件，用于在浏览器中调试打包后的代码
+    // files 属性用于指定要打包的源文件路径和输出文件路径
+    // 这里分别定义多个模块的打包规则：core、core-types、cherry、cherry-plugins
+    // 这几个模块的都是干什么的？需要了解下
     rollup: Object.assign(
       {
         core: {
@@ -203,6 +216,7 @@ module.exports = function (grunt) {
           ]
         },
       },
+      // :::: 给所有的插件，取个名字，比如 contextmenu-plugin--cherry ，并给它，返回一个rollup打包的规则配置
       gruntUtils.generate(plugins, 'plugin--cherry', (name) => {
         return {
           options: {
@@ -287,13 +301,15 @@ module.exports = function (grunt) {
       })
     ),
 
+    // ::::这里没有走进来？不太清楚这个是干嘛用的
     emojis: {
-      twemoji: {
+      twemoji: { //twiter的图标
         base: '',
         ext: '.png'
       }
     },
 
+    // 各种路由规则下的压缩规则
     uglify: Object.assign(
       {
         options: {
@@ -837,23 +853,23 @@ module.exports = function (grunt) {
             if (zipFilePath.indexOf('js/cherry/') === 0) {
               return zipFilePath.substr('js/cherry/'.length);
             }
-  
+
             return zipFilePath;
           },
           onBeforeSave: function (zip) {
             function jsonToBuffer(json) {
               return new Buffer(JSON.stringify(json, null, '\t'));
             }
-  
+
             zip.addData('package.json', jsonToBuffer(cherryPackageData));
             zip.addData('.tnpmrc', new Buffer(`
             //{{TNPM_DOMAIN}}/:_password="{{TNPM_PASSWORD}}"
             //{{TNPM_DOMAIN}}/:username={{TNPM_USERNAME}}
             //{{TNPM_DOMAIN}}/:email={{TNPM_EMAIL}}
             //{{TNPM_DOMAIN}}/:always-auth=false`))
-  
+
             var getDirs = zipUtils.getDirectories(grunt, this.excludes);
-  
+
             zipUtils.addIndexFiles(
               zip,
               getDirs('js/cherry/plugins'),
@@ -1123,13 +1139,13 @@ module.exports = function (grunt) {
   });
   grunt.loadTasks('tools/tasks');
 
-  grunt.registerTask('emoji', ['emojis', 'uglify:emoticons-raw']);
+  // grunt.registerTask('emoji', ['emojis', 'uglify:emoticons-raw']);
 
   grunt.registerTask('prodBuild', [
     'shell:tsc',
     // 'eslint',
     'globals',
-    'emoji',
+    // 'emoji',
     'rollup',
     'concat',
     'copy',
@@ -1149,7 +1165,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'shell:tsc',
     'globals',
-    'emoji',
+    // 'emoji',
     'rollup',
     'concat',
     'copy',
@@ -1161,7 +1177,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('dev', [
     'globals',
-    'emoji',
+    // 'emoji',
     // TODO: Make webpack use the oxide CSS directly
     // as well as making development easier, then we can update 'yarn dev' to run 'oxide-build' in parallel with 'tinymce-grunt dev'
     // that will save 2-3 seconds on incremental builds
