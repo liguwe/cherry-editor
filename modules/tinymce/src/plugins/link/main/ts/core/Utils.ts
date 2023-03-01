@@ -17,12 +17,13 @@ const isAnchor = (elm: Node): elm is HTMLAnchorElement => elm && elm.nodeName.to
 const isLink = (elm: Node): elm is HTMLAnchorElement => isAnchor(elm) && !!getHref(elm);
 
 const isTapdLink = (elm: Node, editor: Editor) => {
-  const matchLinkReg = editor.getParam('getTapdLinkReg', () => {});
-  const href = getHref(<HTMLAnchorElement>elm);
-  const matchList = matchLinkReg();
-  return Object.keys(matchList).some((key) => {
-    return matchList[key].test(href);
-  });
+  // const matchLinkReg = editor.getParam('getTapdLinkReg', () => {});
+  // const href = getHref(<HTMLAnchorElement>elm);
+  // const matchList = matchLinkReg();
+  // return Object.keys(matchList).some((key) => {
+  //   return matchList[key].test(href);
+  // });
+  return false;
 };
 
 const collectNodesInRange = <T extends Node>(rng: Range, predicate: (node) => node is T): T[] => {

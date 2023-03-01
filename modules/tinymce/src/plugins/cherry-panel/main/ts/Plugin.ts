@@ -5,16 +5,15 @@
  */
 
 import PluginManager from 'tinymce/core/api/PluginManager';
-// import tipsICON from './icons/panel-block-icon-tips';
-// import infoICON from './icons/panel-block-icon-info';
-// import okICON from './icons/panel-block-icon-ok';
-// import warningICON from './icons/panel-block-icon-warning';
-// import errorICON from './icons/panel-block-icon-error';
-// import deleteICON from './icons/panel-block-icon-delete';
+import tipsICON from './icons/panel-block-icon-tips';
+import infoICON from './icons/panel-block-icon-info';
+import okICON from './icons/panel-block-icon-ok';
+import warningICON from './icons/panel-block-icon-warning';
+import errorICON from './icons/panel-block-icon-error';
+import deleteICON from './icons/panel-block-icon-delete';
 
-import { icons } from './icons/index';
-
-const { tipsICON, infoICON, deleteICON, errorICON, warningICON, okICON } = icons;
+// import { icons } from './icons/index';
+// const { tipsICON, infoICON, deleteICON, errorICON, warningICON, okICON } = icons;
 
 
 export default () => {
@@ -45,10 +44,7 @@ export default () => {
       const panel = panelList[type] ? panelList[type] : panelList[defaultType];
       const selected = html ? html : editor.selection.getContent();
       const icon = getPanelIconShowInIframe(type);
-
-      console.log(832, icon);
-
-      return `
+      const htmlStr = `
 			<div contenteditable="false" data-panel-type="${type}" class="cherry-panel-block"
 				style="
 					position: relative;
@@ -70,7 +66,8 @@ export default () => {
 						position: relative;
 					"
 				>
-					<div contenteditable="false" class="cherry-panel-block__left"
+					<div contenteditable="false"
+					class="cherry-panel-block__left"
 						style="
 							display:inline-block;
 							width:20px;
@@ -88,6 +85,8 @@ export default () => {
 				</div>
 			</div>
 		`;
+      console.log(832,htmlStr);
+      return htmlStr;
     };
     // 获取光标所在的信息面板
     const getCurrentPanelBlock = function () {
@@ -140,6 +139,7 @@ export default () => {
       }
       editor.undoManager.transact(function () {
         editor.insertContent(panelTemplate(type));
+        // editor.setContent(panelTemplate(type));
         const newNode = getCurrentPanelBlock();
         const targetNode = editor.dom.select('div.cherry-panel-block__content', newNode);
         editor.selection.select(targetNode[0], true);
@@ -284,7 +284,8 @@ export default () => {
 
     const isBrLine = (element) => {
       return element.childNodes.length === 1 && element.childNodes[0].tagName.toLowerCase() === 'br';
-    }
+    };
+
     const isLastChild = (element) => {
       if (editor.dom.hasClass(element, 'cherry-panel-block__content')) {
         return true;
@@ -296,7 +297,7 @@ export default () => {
         }
       }
       return !element.nextSibling;
-    }
+    };
 
     // editor.on('nodeChange', (e) => {
     // 	const targetPanel = getCurrentPanelBlock();
@@ -335,7 +336,7 @@ export default () => {
       remove(false);
     });
 
-    // 注册toolbar 按钮
+    // 注册 toolbar 按钮
     editor.ui.registry.addIcon(panelList[defaultType].iconName, getPanelIconShowInToolbar());
     editor.ui.registry.addToggleButton('ch-panel', {
       icon: panelList[defaultType].iconName,
@@ -368,6 +369,7 @@ export default () => {
     // 注册bubble menu 按钮组里的具体按钮
     Object.keys(panelList).forEach((key) => {
       editor.ui.registry.addIcon(panelList[key].iconName, getPanelIconShowInToolbar(key));
+
       if (key != 'delete') {
         editor.ui.registry.addToggleButton(`ch-panel__${key}`, {
           icon: panelList[key].iconName,

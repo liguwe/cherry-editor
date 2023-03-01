@@ -77,6 +77,16 @@ let create = (entries, tsConfig, outDir, filename) => {
       filename: typeof entries === 'string' ? filename : "[name]/" + filename,
       path: path.resolve(outDir),
       pathinfo: false
+    },
+    devServer: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          pathRewrite: { '^/api': '' },
+          changeOrigin: true,
+          secure: false
+        }
+      }
     }
   };
 };

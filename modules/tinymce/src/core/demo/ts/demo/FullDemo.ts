@@ -50,25 +50,55 @@ export default function () {
     height: 200,
     image_advtab: true,
     file_picker_callback(callback, _value, meta) {
-      if (meta.fieldname === 'poster') {
-        callback('test.mp4', { altsource: 'blah.ogg', width: '400px', poster: 'testing.jpg', embed: '<p>test</p>' });
-        return;
-      }
-      // Provide file and text for the link dialog
-      if (meta.filetype === 'file') {
-        callback('https://www.google.com/logos/google.jpg', { text: 'My text', title: 'blah' });
-      }
 
-      // Provide image and alt text for the image dialog
-      if (meta.filetype === 'image') {
-        // tslint:disable-next-line: no-debugger
-        callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text', style: 'border: 10px solid black;' });
-      }
+      var input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
 
-      // Provide alternative source and posted for the media dialog
-      if (meta.filetype === 'media') {
-        callback('movie.mp4', { embed: '<p>test</p>' });
-      }
+      input.onchange = function () {
+        // var file = this.files[0];
+        //
+        // var reader = new FileReader();
+        // reader.onload = function () {
+        //   /*
+        //     Note: Now we need to register the blob in TinyMCEs image blob
+        //     registry. In the next release this part hopefully won't be
+        //     necessary, as we are looking to handle it internally.
+        //   */
+        //   var id = 'blobid' + (new Date()).getTime();
+        //   var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+        //   var base64 = reader.result.split(',')[1];
+        //   var blobInfo = blobCache.create(id, file, base64);
+        //   blobCache.add(blobInfo);
+        //
+        //   /* call the callback and populate the Title field with the file name */
+        //   cb(blobInfo.blobUri(), { title: file.name });
+        // };
+        // reader.readAsDataURL(file);
+      };
+
+      input.click();
+
+
+      // if (meta.fieldname === 'poster') {
+      //   callback('test.mp4', { altsource: 'blah.ogg', width: '400px', poster: 'testing.jpg', embed: '<p>test</p>' });
+      //   return;
+      // }
+      // // Provide file and text for the link dialog
+      // if (meta.filetype === 'file') {
+      //   callback('https://www.google.com/logos/google.jpg', { text: 'My text', title: 'blah' });
+      // }
+      //
+      // // Provide image and alt text for the image dialog
+      // if (meta.filetype === 'image') {
+      //   // tslint:disable-next-line: no-debugger
+      //   callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text', style: 'border: 10px solid black;' });
+      // }
+      //
+      // // Provide alternative source and posted for the media dialog
+      // if (meta.filetype === 'media') {
+      //   callback('movie.mp4', { embed: '<p>test</p>' });
+      // }
     },
     spellchecker_callback(method, text, success, _failure) {
       const words = text.match(this.getWordCharPattern());

@@ -27,7 +27,6 @@ let plugins = [
   'visualblocks', 'visualchars', 'wordcount', 'quickbars',
 ];
 
-
 let themes = [
   'mobile',
   // 'modern', 'mobile', 'inlite', 'silver'
@@ -1141,7 +1140,6 @@ module.exports = function (grunt) {
   grunt.loadTasks('tools/tasks');
 
   grunt.registerTask('emoji', ['emojis','uglify:emoticons-raw']);
-  // grunt.registerTask('emoji', ['emoticons', 'uglify:emoticons-raw']);
 
   grunt.registerTask('prodBuild', [
     'shell:tsc',

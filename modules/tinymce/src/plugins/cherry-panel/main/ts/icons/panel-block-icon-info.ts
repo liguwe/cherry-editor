@@ -4,9 +4,10 @@
  * For LGPL see License.txt in the project root for license information.
  */
 
-export default `<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+export default `
+<svg
+ version="1.1" id="图层_1"
+xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"
 	 viewBox="0 0 850.394 850.394" enable-background="new 0 0 850.394 850.394" xml:space="preserve">
 <g>
 	<path fill="currentColor" d="M815.329,535.818c0.041-0.049,0.086-0.097,0.127-0.146c3.987-4.826,6.493-10.921,6.823-17.588
@@ -21,4 +22,6 @@ export default `<?xml version="1.0" encoding="utf-8"?>
 		S339.348,414.976,328.302,414.976z"/>
 </g>
 </svg>
-`
+`;
+
+
